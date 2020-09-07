@@ -4,7 +4,8 @@ const categorySchema = new mongoose.Schema({
     value:{
         type:String,
         required:true,
-        unique:true
+        unique:true,
+        default :'personal'
     }
 },{
     timestamps:true

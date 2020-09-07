@@ -10,7 +10,7 @@ const userSchema = new mongoose.Schema(
       unique: true,
       trim: true,
       validate(value) {
-        if (validator.isEmail(value)) {
+        if (!validator.isEmail(value)) {
           throw new Error("Enter a valid email");
         }
       },
@@ -34,8 +34,8 @@ const userSchema = new mongoose.Schema(
     tokens: [
       {
         token: {
-          type: string,
-          required: true,
+          type: String,
+          // required: true,
         },
       },
     ],
@@ -49,7 +49,7 @@ const userSchema = new mongoose.Schema(
 userSchema.virtual('tasks',{
     ref:'Task',
     localField:'_id',
-    forignField: 'owner'
+    foreignField: 'owner'
 })
 
 
