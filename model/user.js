@@ -53,6 +53,25 @@ userSchema.virtual('tasks',{
     foreignField: 'owner'
 })
 
+// deleting password from response
+userSchema.methods.toJSON = function(){
+  const user = this.toObject()
+  delete user.password
+  return user
+}
+
+// finding user
+userSchema.statics.findByCredentials = async(email,password)=>{
+  const user = await User.findOne({email})
+  if(!user){
+    throw new Error('Unable To Login')
+  } 
+  const isMatch = await bcrypt.compareSync(password,user.password)
+  if(!isMatch){
+    throw new Error('Unable To Login')
+  }
+  return user
+}
 
 // hashing password before saving
 userSchema.pre('save',async function(next){
