@@ -11,7 +11,9 @@ module.exports.create = async (req,res)=>{
         await user.save()
         res.status(201).send({user})
     } catch(e){
-        console.log(e)
+        if(e.code = 11000){
+            res.status(400).send()
+        }
     }
 }
 
