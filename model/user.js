@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const validator = require("validator");
 const bcrypt = require("bcryptjs");
+const jwt = require("jsonwebtoken");
 
 // User Schema
 const userSchema = new mongoose.Schema(
@@ -30,16 +31,14 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
-      trim:true
+      trim: true,
     },
-    tokens: [
-      {
-        token: {
+    tokens:[{
+      token:{
           type: String,
-          // required: true,
-        },
-      },
-    ],
+          required: true
+      }
+  }],
   },
   {
     timestamps: true,
@@ -47,38 +46,50 @@ const userSchema = new mongoose.Schema(
 );
 
 // virtual field to get tasks
-userSchema.virtual('tasks',{
-    ref:'Task',
-    localField:'_id',
-    foreignField: 'owner'
-})
+userSchema.virtual("tasks", {
+  ref: "Task",
+  localField: "_id",
+  foreignField: "owner",
+});
 
 // deleting password from response
-userSchema.methods.toJSON = function(){
-  const user = this.toObject()
-  delete user.password
-  return user
-}
+userSchema.methods.toJSON = function () {
+  const user = this.toObject();
+  delete user.password;
+  return user;
+};
 
 // finding user
-userSchema.statics.findByCredentials = async(email,password)=>{
-  const user = await User.findOne({email})
-  if(!user){
-    throw new Error('Unable To Login')
-  } 
-  const isMatch = await bcrypt.compareSync(password,user.password)
-  if(!isMatch){
-    throw new Error('Unable To Login')
+userSchema.statics.findByCredentials = async (email, password) => {
+  const user = await User.findOne({ email });
+  if (!user) {
+    throw new Error("Unable To Login");
   }
-  return user
-}
+  const isMatch = await bcrypt.compareSync(password, user.password);
+  if (!isMatch) {
+    throw new Error("Unable To Login");
+  }
+  return user;
+};
+
+// generating auth token (jwt)
+userSchema.methods.generateAuthToken = async function () {
+  const token = jwt.sign({ _id: this._id.toString() }, "Secret_key");
+  if(this.tokens.length > 4){
+    this.tokens.shift()
+  }
+  this.tokens = this.tokens.concat({ token });
+  await this.save()
+  return token;
+};
+
 
 // hashing password before saving
-userSchema.pre('save',async function(next){
-  if(this.isModified('password')){
-    this.password = await bcrypt.hash(this.password,8)
+userSchema.pre("save", async function (next) {
+  if (this.isModified("password")) {
+    this.password = await bcrypt.hash(this.password, 8);
   }
-})
+});
 
 // Setting up User model
 const User = mongoose.model("User", userSchema);
