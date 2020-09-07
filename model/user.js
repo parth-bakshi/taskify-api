@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
-const db = require("../config/mongoose");
 const validator = require("validator");
+
+// User Schema
 const userSchema = new mongoose.Schema(
   {
     email: {
@@ -28,6 +29,7 @@ const userSchema = new mongoose.Schema(
     name: {
       type: String,
       required: true,
+      trim:true
     },
     tokens: [
       {
@@ -43,6 +45,16 @@ const userSchema = new mongoose.Schema(
   }
 );
 
+// virtual field to get tasks
+userSchema.virtual('tasks',{
+    ref:'Task',
+    localField:'_id',
+    forignField: 'owner'
+})
+
+
+// Setting up User model
 const User = mongoose.model("User", userSchema);
 
+// Exporting Model
 module.exports = User;
