@@ -33,3 +33,13 @@ module.exports.login = async (req, res) => {
     res.status(400).send({ message: "UNABLE TO LOGIN" });
   }
 };
+
+
+module.exports.userData = async(req,res)=>{
+    try{    
+        res.send({user:req.user})
+    } catch(e){
+        console.log('User Data API: ',e)
+        res.status(500).send({message:"Unable to fetch"})
+    }
+}
