@@ -8,6 +8,11 @@ const categorySchema = new mongoose.Schema(
       unique: true,
       default: "personal",
     },
+    tasks:[
+        {
+            type:mongoose.Schema.Types.ObjectId
+        }
+    ]
   },
   {
     timestamps: true,
