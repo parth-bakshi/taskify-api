@@ -4,11 +4,23 @@ const express = require("express");
 const app = express();
 // Passport
 const passport = require("passport");
+//cors
+var cors = require('cors');
 
 // PORT
 const port = process.env.PORT || 8000;
 
+// db
 const db = require("./config/mongoose");
+
+// enabling cors
+let corsOption = {
+  origin: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  credentials: true,
+  exposedHeaders: ['x-auth-token']
+};
+app.use(cors(corsOption));
 
 // Parse the request
 app.use(express.urlencoded({ extended: true }));
