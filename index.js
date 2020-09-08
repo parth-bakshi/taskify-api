@@ -7,8 +7,11 @@ const passport = require("passport");
 //cors
 var cors = require('cors');
 
+// .env
+require('dotenv').config()
+
 // PORT
-const port = process.env.PORT || 8000;
+const port = process.env.PORT;
 
 // db
 const db = require("./config/mongoose");

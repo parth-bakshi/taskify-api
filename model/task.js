@@ -18,8 +18,8 @@ const taskSchema = new mongoose.Schema({
         type:Date,
     },
     category:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref: "Category"
+        type:String,
+        required:true
     },
     owner:{
         type :mongoose.Schema.Types.ObjectId,

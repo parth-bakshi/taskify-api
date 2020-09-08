@@ -33,6 +33,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       trim: true,
     },
+    categories:{
+      type:Array,
+      required:true,
+      default : ['personal','shopping',"work"]
+    },
     tokens:[{
       token:{
           type: String,
@@ -74,7 +79,7 @@ userSchema.statics.findByCredentials = async (email, password) => {
 
 // generating auth token (jwt)
 userSchema.methods.generateAuthToken = async function () {
-  const token = jwt.sign({ _id: this._id.toString() }, "Secret_key");
+  const token = jwt.sign({ _id: this._id.toString() }, process.env.SECRET_KEY);
   if(this.tokens.length > 4){
     this.tokens.shift()
   }

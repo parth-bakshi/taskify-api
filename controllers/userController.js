@@ -15,7 +15,7 @@ module.exports.create = async (req, res) => {
   } catch (e) {
     console.log("Error in Create API: ", e);
     if ((e.code = 11000)) {
-      res.status(400).send({ message: "USE ANOTHER EMAIL" });
+      res.status(400).send({ message: "Use Another Email" });
     }
   }
 };
@@ -30,7 +30,7 @@ module.exports.login = async (req, res) => {
     res.send({ user,token });
   } catch (e) {
     console.log("Error In Login API: ", e);
-    res.status(400).send({ message: "UNABLE TO LOGIN" });
+    res.status(400).send({ message: "Unable to Login" });
   }
 };
 
@@ -42,4 +42,16 @@ module.exports.userData = async(req,res)=>{
         console.log('User Data API: ',e)
         res.status(500).send({message:"Unable to fetch"})
     }
+}
+
+module.exports.createCategory = async(req,res)=>{
+  try{
+    let categories = [...req.user.categories,req.body.category]
+    await req.user.update({categories})
+    await req.user.save()
+    return res.send({message:"Category Updated"})
+  } catch(e){
+    console.log('Create Category API: ',e)
+    res.status(500).send({message:"Unable to Create Category"})
+  }
 }

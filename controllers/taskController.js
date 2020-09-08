@@ -5,7 +5,7 @@ module.exports.createTask = async()=>{
             name:req.body.name,
             description:req.body.description,
             date:req.body.date,
-            category:req.body.categoryId,
+            category:req.body.category,
             owner:req.user._id
         })
         await task.save()
