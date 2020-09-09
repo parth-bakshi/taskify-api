@@ -12,4 +12,7 @@ router.get("/get-all-tasks", auth, taskController.getTasks);
 //delete a task
 router.post("/delete-task",auth,taskController.deleteTask);
 
+//delete all completed tasks
+router.post("/delete-all-completed-tasks",auth,taskController.deleteCompletedTasks);
+
 module.exports = router;
