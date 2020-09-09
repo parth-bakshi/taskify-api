@@ -1,5 +1,6 @@
 const User = require("../model/user");
 
+// create user
 module.exports.create = async (req, res) => {
   try {
     console.log(req.body);
@@ -20,6 +21,7 @@ module.exports.create = async (req, res) => {
   }
 };
 
+// login
 module.exports.login = async (req, res) => {
   try {
     console.log(req.body);
@@ -35,6 +37,7 @@ module.exports.login = async (req, res) => {
   }
 };
 
+// logout
 module.exports.logout = async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter((token) => {
@@ -47,6 +50,7 @@ module.exports.logout = async (req, res) => {
   }
 };
 
+// get user's data
 module.exports.userData = async (req, res) => {
   try {
     res.send({ user: req.user });
@@ -56,6 +60,7 @@ module.exports.userData = async (req, res) => {
   }
 };
 
+// create category
 module.exports.createCategory = async (req, res) => {
   try {
     let categories = [...req.user.categories, req.body.category];
