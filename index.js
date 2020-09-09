@@ -11,7 +11,7 @@ var cors = require('cors');
 require('dotenv').config()
 
 // PORT
-const port = process.env.PORT;
+const port = 9000;
 
 // db
 const db = require("./config/mongoose");
