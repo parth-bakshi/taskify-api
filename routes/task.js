@@ -15,4 +15,7 @@ router.post("/delete-task",auth,taskController.deleteTask);
 //delete all completed tasks
 router.post("/delete-all-completed-tasks",auth,taskController.deleteCompletedTasks);
 
+//toggle a task status
+router.post("/toggle-task-status",auth,taskController.toggleStatus);
+
 module.exports = router;
