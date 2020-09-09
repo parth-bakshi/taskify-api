@@ -16,7 +16,7 @@ module.exports.create = async (req, res) => {
   } catch (e) {
     console.log("Error in Create API: ", e);
     if ((e.code = 11000)) {
-      res.status(400).send({ message: "Use Another Email" });
+      res.status(400).send({ message: "Unable to create user due to wrong data" });
     }
   }
 };
@@ -41,7 +41,8 @@ module.exports.login = async (req, res) => {
 module.exports.logout = async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter((token) => {
-      return token.token !== req.token;
+      // return token.token !== req.token;
+      return false;
     });
     await req.user.save();
     res.send({ message: "Logged Out Successfully" });
@@ -72,3 +73,18 @@ module.exports.createCategory = async (req, res) => {
     res.status(500).send({ message: "Unable to Create Category" });
   }
 };
+
+
+// return all categories
+module.exports.getCategory = async (req,res) => {
+  try{
+    let categories = await User.findById(req.user._id);
+    return res.send({
+      message: "all categories",
+      data:categories.categories
+    });
+  }catch (e) {
+    console.log("return all Category API: ", e);
+    res.status(500).send({ message: "Unable to return Categories" });
+  }
+}
