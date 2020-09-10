@@ -67,7 +67,7 @@ module.exports.createCategory = async (req, res) => {
     let categories = [...req.user.categories, req.body.category];
     await req.user.update({ categories });
     await req.user.save();
-    return res.send({ message: "Category Updated" });
+    return res.send({ user:req.user,message: "Category Updated" });
   } catch (e) {
     console.log("Create Category API: ", e);
     res.status(500).send({ message: "Unable to Create Category" });
