@@ -62,6 +62,9 @@ module.exports.deleteCompletedTasks = async(req,res) => {
 module.exports.toggleStatus = async (req,res) =>{
   try{
     let task = await Task.findById(req.body.id);
+    if(!user){
+      return res.send(500);
+    }
     task.completeStatus = !task.completeStatus;
     await task.save();
     return res.send(200,{message:"task status is successfully toggled"});
