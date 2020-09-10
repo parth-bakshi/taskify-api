@@ -61,7 +61,7 @@ module.exports.deleteCompletedTasks = async(req,res) => {
 // mark task as complete /incomplete
 module.exports.toggleStatus = async (req,res) =>{
   try{
-    let task = await Task.findById(req.body.id);
+    let task = await Task.find({id:req.body.id});
     if(!user){
       return res.send(500);
     }
