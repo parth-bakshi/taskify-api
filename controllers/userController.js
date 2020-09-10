@@ -12,11 +12,11 @@ module.exports.create = async (req, res) => {
     const token = await user.generateAuthToken();
 
     await user.save();
-    res.status(201).send({ user, token });
+    return res.status(201).send({ user, token });
   } catch (e) {
     console.log("Error in Create API: ", e);
     if ((e.code = 11000)) {
-      res.status(400).send({ message: "Unable to create user due to wrong data" });
+      return res.status(400).send({ message: "Unable to create user due to wrong data" });
     }
   }
 };
@@ -30,10 +30,10 @@ module.exports.login = async (req, res) => {
       req.body.password
     );
     const token = await user.generateAuthToken();
-    res.send({ user, token });
+    return res.send({ user, token });
   } catch (e) {
     console.log("Error In Login API: ", e);
-    res.status(400).send({ message: "Unable to Login" });
+    return res.status(400).send({ message: "Unable to Login" });
   }
 };
 
@@ -45,7 +45,7 @@ module.exports.logout = async (req, res) => {
       return false;
     });
     await req.user.save();
-    res.send({ message: "Logged Out Successfully" });
+    return res.send({ message: "Logged Out Successfully" });
   } catch (e) {
     res.status(500).send();
   }
@@ -54,10 +54,10 @@ module.exports.logout = async (req, res) => {
 // get user's data
 module.exports.userData = async (req, res) => {
   try {
-    res.send({ user: req.user });
+    return res.send({ user: req.user });
   } catch (e) {
     console.log("User Data API: ", e);
-    res.status(500).send({ message: "Unable to fetch" });
+    return res.status(500).send({ message: "Unable to fetch" });
   }
 };
 
@@ -73,7 +73,7 @@ module.exports.createCategory = async (req, res) => {
     return res.send({ message: "Category Updated" , categories:req.user.categories});
   } catch (e) {
     console.log("Create Category API: ", e);
-    res.status(500).send({ message: "Unable to Create Category" });
+    return res.status(500).send({ message: "Unable to Create Category" });
   }
 };
 
@@ -88,6 +88,6 @@ module.exports.getCategory = async (req,res) => {
     });
   }catch (e) {
     console.log("return all Category API: ", e);
-    res.status(500).send({ message: "Unable to return Categories" });
+    return res.status(500).send({ message: "Unable to return Categories" });
   }
 }

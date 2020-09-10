@@ -11,6 +11,7 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
       trim: true,
+      lowercase:true,
       validate(value) {
         if (!validator.isEmail(value)) {
           throw new Error("Enter a valid email");
@@ -61,6 +62,7 @@ userSchema.virtual("tasks", {
 userSchema.methods.toJSON = function () {
   const user = this.toObject();
   delete user.password;
+  delete user.token
   return user;
 };
 

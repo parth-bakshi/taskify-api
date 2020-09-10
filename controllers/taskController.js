@@ -1,9 +1,11 @@
 const Task = require("../model/task");
 const User = require("../model/user");
+const moment = require("moment")
 
 // create task
 module.exports.createTask = async (req,res) => {
   try {
+    // console.log(moment(req.body.date,"DD-MM-YYYY hh:mm")
     const task = new Task({
       name: req.body.name,
       description: req.body.description,
