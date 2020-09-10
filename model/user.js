@@ -36,7 +36,7 @@ const userSchema = new mongoose.Schema(
     categories:{
       type:Array,
       // required:true,
-      default : ['personal','shopping',"work"]
+      default : ['Personal','Shopping',"Work"]
     },
     tokens:[{
       token:{
