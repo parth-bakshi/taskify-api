@@ -61,10 +61,8 @@ module.exports.deleteCompletedTasks = async(req,res) => {
 // mark task as complete /incomplete
 module.exports.toggleStatus = async (req,res) =>{
   try{
-    let task = await Task.find({id:req.body.id});
-    if(!task){
-      return res.send(500);
-    }
+    // console.log(req.body.id);
+    let task = await Task.findById(req.body.id);
     task.completeStatus = !task.completeStatus;
     await task.save();
     return res.send(200,{message:"task status is successfully toggled"});

@@ -64,10 +64,10 @@ module.exports.userData = async (req, res) => {
 // create category
 module.exports.createCategory = async (req, res) => {
   try {
+
+    console.log(req.body);
     let categories = [...req.user.categories, req.body.category];
     await User.findByIdAndUpdate(req.user._id,{categories:categories});
-    // await req.user.update({ categories });
-    // await req.user.save();
     return res.send({ user:req.user,message: "Category Updated" });
   } catch (e) {
     console.log("Create Category API: ", e);
