@@ -64,11 +64,13 @@ module.exports.userData = async (req, res) => {
 // create category
 module.exports.createCategory = async (req, res) => {
   try {
-
-    console.log(req.body);
+    if(req.user.categories.includes(req.body.category)){
+      return res.status(409).send({message:"Category already exists"})
+    }
     let categories = [...req.user.categories, req.body.category];
-    await User.findByIdAndUpdate(req.user._id,{categories:categories});
-    return res.send({ user:req.user,message: "Category Updated" });
+    await req.user.update({ categories });
+    await req.user.save();
+    return res.send({ message: "Category Updated" , categories:req.user.categories});
   } catch (e) {
     console.log("Create Category API: ", e);
     res.status(500).send({ message: "Unable to Create Category" });
