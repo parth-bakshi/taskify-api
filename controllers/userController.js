@@ -16,7 +16,9 @@ module.exports.create = async (req, res) => {
   } catch (e) {
     console.log("Error in Create API: ", e);
     if ((e.code = 11000)) {
-      return res.status(400).send({ message: "Unable to create user due to wrong data" });
+      return res
+        .status(400)
+        .send({ message: "Unable to create user due to wrong data" });
     }
   }
 };
@@ -64,30 +66,56 @@ module.exports.userData = async (req, res) => {
 // create category
 module.exports.createCategory = async (req, res) => {
   try {
-    if(req.user.categories.includes(req.body.category)){
-      return res.status(409).send({message:"Category already exists"})
+    if (req.user.categories.includes(req.body.category)) {
+      return res.status(409).send({ message: "Category already exists" });
     }
     let categories = [...req.user.categories, req.body.category];
     await req.user.update({ categories });
     await req.user.save();
-    return res.send({ message: "Category Updated" , categories:req.user.categories});
+    return res.send({
+      message: "Category Updated",
+      categories,
+    });
   } catch (e) {
     console.log("Create Category API: ", e);
     return res.status(500).send({ message: "Unable to Create Category" });
   }
 };
 
-
 // return all categories
-module.exports.getCategory = async (req,res) => {
-  try{
+module.exports.getCategory = async (req, res) => {
+  try {
     let categories = await User.findById(req.user._id);
     return res.send({
       message: "all categories",
-      data:categories.categories
+      data: categories.categories,
     });
-  }catch (e) {
+  } catch (e) {
     console.log("return all Category API: ", e);
     return res.status(500).send({ message: "Unable to return Categories" });
   }
-}
+};
+
+// delete category
+module.exports.deleteCategory = async (req, res) => {
+  try {
+    const delCategory = req.body.category;
+
+    if (!req.user.categories.includes(delCategory)) {
+      return res.status(400).send({ message: "category not available" });
+    }
+    categories = await req.user.categories.filter((category) => {
+      return category !== delCategory;
+    });
+    console.log(categories);
+    await req.user.update({ categories });
+    await req.user.save();
+    res.send({
+      message: "Category Updated",
+      categories,
+    });
+  } catch (e) {
+    console.log("Delete Task API: ", e);
+    return res.status(500).send({ message: "Unable to delete" });
+  }
+};

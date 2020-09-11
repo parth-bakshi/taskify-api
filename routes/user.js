@@ -14,6 +14,8 @@ router.post("/logout", auth, userController.logout);
 // create category
 router.post("/create/category", auth, userController.createCategory);
 //return all categories of a user
-router.get("/get-category",auth,userController.getCategory);
+router.get("/get-category", auth, userController.getCategory);
+// delete category
+router.delete("/del-category", auth, userController.deleteCategory);
 
 module.exports = router;
