@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
-mongoose.connect(process.env.DB_URL,{ useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect("mongodb+srv://parth:qwertyuioP1!@taskify.ib9cl.mongodb.net/taskify?retryWrites=true&w=majority",{ useNewUrlParser: true, useUnifiedTopology: true });
+// mongoose.connect("mongodb://localhost/todo-mckinley");
 const db = mongoose.connection;
 
 db.on('error',console.error.bind("error creating db"));
