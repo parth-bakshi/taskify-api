@@ -43,13 +43,12 @@ module.exports.login = async (req, res) => {
 module.exports.logout = async (req, res) => {
   try {
     req.user.tokens = req.user.tokens.filter((token) => {
-      // return token.token !== req.token;
-      return false;
+      return token.token != req.token;
     });
     await req.user.save();
     return res.send({ message: "Logged Out Successfully" });
   } catch (e) {
-    res.status(500).send();
+    res.status(500).send(e);
   }
 };
 
